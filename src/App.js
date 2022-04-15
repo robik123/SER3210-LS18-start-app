@@ -1,24 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Table from "./table";
+import NavBar from "./components/navBar";
+import {Route, Switch, Redirect, Router} from "react-router-dom";
+import Products from './components/products';
+import About from './components/about';
+import NotFound from './components/notFound';
+import { createBrowserHistory } from "history";
+import { BrowserRouter } from "react-router-dom";
+import ProductDetails from "./components/productDetails";
+const history = createBrowserHistory();
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+   
+
+  
+     <BrowserRouter history={history}>
+       <NavBar />
+         <Switch>
+           <Route path="/about">
+              <About/>
+           </Route>
+           <Route path = "/products/:id">
+              <ProductDetails/>
+           </Route>
+           <Route path="/products" render={(props)=> <Products sortBy="name" {... props}/>}>
+           </Route>
+           <Route exact path="/">
+              <Table/>
+           </Route>
+           <Route path="/not-found">
+              <NotFound/>
+           </Route>
+           <Redirect to="/not-found"></Redirect>
+         </Switch>
+         </BrowserRouter>
+
     </div>
   );
 }
